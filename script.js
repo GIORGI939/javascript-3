@@ -2,13 +2,23 @@
 let factory ={
     facName: `Volkswagen Wolfsburg Plant`,
     calculateWorkload : function () {
-        let getUser = print.bind(worklaodData)();
-        console.log(factory.calculateWorkload);
+     const employeeWorkData=this.employeeWeeklyWorkload;
+     const workResData = [];
+     if (employeeWorkData && employeeWorkData.length > 0) {
+         for( let emp of employeeWorkData ) {
+         workResData.push(emp.workload || emp.timeSpent)
+     }
+         return workResData
+    }
+         else `Not Valid`
     },
     formatArray: function (name) {
-        let timeLeft=4;
-        let timeSpent=5;
-    }
+        const employeeData=this.employees;
+        if (employeeData && employeeData.length > 0) {
+            let emp=employeeData.find((el) => el.name === name);
+            return {name : emp.name,  timeLeft : 5 - emp.timeSpent}
+        } else return ` Not Valid `
+    } 
 }
     let factoryEmployees= {
         employees: [
@@ -23,79 +33,129 @@ let factory ={
     let worklaodData= {
         employeeWeeklyWorkload: [
             {name:`John`, workload: 40},
-            {name:`Sam`, workload: 25},
-            {name:`Maria`, workload: 28},
-            {name:`Dan`, workload: 30},
-            {name:`Loreali`, workload: 31}
+            {name:`Sam`, timeSpent: 25},
+            {name:`Maria`, timeSpent: 28},
+            {name:`Dan`, timeSpent: 30},
+            {name:`Loreali`, timeSpent: 31}
     ],
-    print : function (){
-        return this.employeeWeeklyWorkload.workload
-    }
 }
+let workArr = factory.calculateWorkload.bind(worklaodData);
+let formattedUser=factory.formatArray.bind(factoryEmployees,`John`)()
+console.log(formattedUser);
+
 
 // task2
-    let sumOfNumbers = (x,y,z) => {
-        return x+y+z
+    function sumOfNumbers (...arr) {
+        let sum=0;
+        for (let num of arr) {
+            sum += num
+        }
+        return sum
     }
-    console.log(sumOfNumbers.call(null,10,20,30));
+    console.log(sumOfNumbers.apply(null,[10,20,30]))();
 
 // task3
-let checkIfEven = n => {
-    if (n % 2 === 0 ){
-        return `Even`
-    }
-    else return `Odd`
+// let checkIfEven = n => {
+//     if (n % 2 === 0 ){
+//         return `Even`
+//     }
+//     else return `Odd`
+// }
+// console.log(checkIfEven(11));
+
+function checkIfEven (n) {
+    n=Math.abs(n)
+    if (n === 0) return true
+    if (n === 1) return false
+    return checkIfEven(n-2)
 }
-console.log(checkIfEven(11));
+console.log(checkIfEven(-51));
+
 
 
 
 // task4
 color=[`Blue`,`Green`,`Red`,`Orange`,`Violet`,`Indigo`,`Yellow`];
-o=[`th`,`st`,`nd`,`rd`];
-let combaind = (color,o) =>{
-    // for (let n of color)
-       if (o==1)
-       return `st`
-       if (o==2)
-       return `nd`
-       if (o==3)
-       return `rd`
-       else return `nd`
+function normalize (arr){
+let result = [];
+for (let i = 1; i < arr.length; i++){
+    let text =``;
+    if (i % 10 === 1 ) { 
+        text = `${i}st choice is ${arr[i - 1]}`
 }
-let result = `${o[1]} Choice is ${color[0]}`
-console.log(result,combaind(o[2]));
+    else if (i % 10 === 2) {
+        text = `${i}nd choice is ${arr[i - 1]}`
+    }
+    else if (i % 10 === 3) {
+        text = `${i}rd  choice is ${arr[i - 1]}`
+    }
+    else {
+        text = `${i}th choice is ${arr[i - 1]}`
+    }
+    result.push(text);
+}
+    return result;
+}
+console.log(normalize(color));
+   
 
 
 
 // task5
 arr=[NaN,0,15,false,-22,``,undefined,47,null];
-let valid = arr.filter(Boolean);
-console.log(valid);
+
+// პირველი ვარიანტი
+// let valid = arr.filter(Boolean);
+// console.log(valid);
+
+// მეორე ვარიანტი
+function filterArr (arr)  {
+    let result=[];
+    for (let el of arr ){
+        if(el){
+        result.push(el)
+        }
+    }
+    return result;
+}
+console.log(filterArr(arr));
+
+
+// მესამე ვარიანტი
+let filter= arr.filter((el) => el)
+console.log(filter);
+
+
+
 
 // task6
-function mergeArr(arr1,arr2) {
-    for (let n of arr3)
-       if(arr3.filter((n)=>n !==))
-    return (arr1,arr2).filter((number)=>number !== )
-}
+
 arr1=[1,2,3];
 arr2=[2,1,30];
-arr3=`[${arr1},${arr2}]`;
-arr4=[...arr3];
-console.log(arr3);
-console.log(mergeArr(arr1,arr2));
-
+function merge (arr1,arr2) {
+   let merge=arr1.concat(arr2);
+   let result = [];
+   for ( let i = 0; i < merge.length; i++) {
+        if(result.indexOf(merge[i]) === -1) {
+            result.push(merge[i])
+   };
+   }
+   return result
+}
+console.log(merge(arr1,arr2));
 
 
 // task7
 let array1 = [1,10,12,13];
 let array2 = [4,5];
-let array3 = (array1,array2).map(i => {
-    let userLaw={};
-    userLaw=array1[0]+array2[0];
-    return userLaw;
-})
-console.log(userLaw);
+function addIt(array1,array2) {
+    let mainArr= array1.length >= array2.length ? array1 : array2;
+    return mainArr.map((el,index) => {
+        if( index < array2.length) {
+            return el + array2[index]
+        } else return el;
+    })
+}
+console.log(addIt(array1,array2));
 
 
